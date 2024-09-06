@@ -1,4 +1,4 @@
-# 🍕 JWT Pizza - Now undergoing work by Kaiden's Devops/QA team
+# 🍕 JWT Pizza
 
 ![Coverage badge](coverageBadge.svg)
 
