@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /admin-dashboard/
+Disallow: /docs/
