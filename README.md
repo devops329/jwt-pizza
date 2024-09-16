@@ -2,6 +2,8 @@
 
 ![Coverage badge](coverageBadge.svg)
 
+[![CI Pipeline](https://github.com/allisonnhart/jwt-pizza/actions/workflows/ci.yml/badge.svg)](https://github.com/allisonnhart/jwt-pizza/actions/workflows/ci.yml)
+
 A JSON Web Token, or [JWT](https://jwt.io/introduction), (pronounced JOT) is a digitally signed transfer of information using JSON notation. Because you can validate the digital signature you can buy JWT pizzas with confidence.
 
 `JWT Pizza` takes the next stage of digital evolution by allowing you to buy pizzas that you can never actually eat. Not only does JWT exchange bitcoin and give you nothing in return, it also allows for you to be come a franchisee and turn the whole vapor company into an MLM.
@@ -150,7 +152,3 @@ export default function App() {
 ### Icons
 
 [HeroIcons](https://heroicons.com/) - MIT license
-
-
-
-[![CI Pipeline](https://github.com/allisonnhart/jwt-pizza/actions/workflows/ci.yml/badge.svg)](https://github.com/allisonnhart/jwt-pizza/actions/workflows/ci.yml)
