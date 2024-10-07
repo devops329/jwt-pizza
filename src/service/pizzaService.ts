@@ -6,7 +6,7 @@ enum Role {
 
 namespace Role {
   export function isRole(user: User | null, role: Role): boolean {
-    return user != null && !!user.roles.find((r) => r.role === role);
+    return user != null && Array.isArray(user.roles) && !!user.roles.find((r) => r.role === role);
   }
 }
 
@@ -32,6 +32,11 @@ type Order = {
   storeId: string;
   date: string;
   items: OrderItem[];
+};
+
+type OrderResponse = {
+  order: Order;
+  jwt: string;
 };
 
 type OrderHistory = {
@@ -61,9 +66,27 @@ type Store = {
 
 type Franchise = {
   id: string;
-  admins?: { id: string; name: string; email: string }[];
+  admins?: { email: string; id?: string; name?: string }[];
   name: string;
   stores: Store[];
+};
+
+type Endpoint = {
+  requiresAuth: boolean;
+  method: string;
+  path: string;
+  description: string;
+  example: string;
+  response: any;
+};
+
+type Endpoints = {
+  endpoints: Endpoint[];
+};
+
+type JWTPayload = {
+  message: string;
+  payload: string;
 };
 
 interface PizzaService {
@@ -73,15 +96,15 @@ interface PizzaService {
   getUser(): Promise<User | null>;
   getMenu(): Promise<Menu>;
   getOrders(user: User): Promise<OrderHistory>;
-  order(order: Order): Promise<Order>;
-  verifyOrder(jwt: string): Promise<Order>;
-  getFranchise(user: User): Promise<Franchise | null>;
+  order(order: Order): Promise<OrderResponse>;
+  verifyOrder(jwt: string): Promise<JWTPayload>;
+  getFranchise(user: User): Promise<Franchise[]>;
   createFranchise(franchise: Franchise): Promise<Franchise>;
   getFranchises(): Promise<Franchise[]>;
   closeFranchise(franchise: Franchise): Promise<void>;
   createStore(franchise: Franchise, store: Store): Promise<Store>;
   closeStore(franchise: Franchise, store: Store): Promise<null>;
-  docs(docType: string): Promise<Object>;
+  docs(docType: string): Promise<Endpoints>;
 }
 
-export { Role, PizzaService, User, Menu, Pizza, OrderHistory, Order, Franchise, Store, OrderItem };
+export { Role, PizzaService, User, Menu, Pizza, OrderHistory, Order, Franchise, Store, OrderItem, Endpoint, Endpoints, OrderResponse, JWTPayload };

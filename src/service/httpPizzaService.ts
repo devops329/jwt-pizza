@@ -1,4 +1,4 @@
-import { PizzaService, Franchise, Store, OrderHistory, User, Menu, Order, Role } from './pizzaService';
+import { PizzaService, Franchise, Store, OrderHistory, User, Menu, Order, Endpoints, OrderResponse, JWTPayload } from './pizzaService';
 
 const pizzaServiceUrl = import.meta.env.VITE_PIZZA_SERVICE_URL;
 const pizzaFactoryUrl = import.meta.env.VITE_PIZZA_FACTORY_URL;
@@ -35,7 +35,7 @@ class HttpPizzaService implements PizzaService {
         } else {
           reject({ code: r.status, message: j.message });
         }
-      } catch (e) {
+      } catch (e: any) {
         reject({ code: 500, message: e.message });
       }
     });
@@ -80,15 +80,15 @@ class HttpPizzaService implements PizzaService {
     return this.callEndpoint('/api/order');
   }
 
-  async order(order: Order): Promise<Order> {
+  async order(order: Order): Promise<OrderResponse> {
     return this.callEndpoint('/api/order', 'POST', order);
   }
 
-  async verifyOrder(jwt: string): Promise<Order> {
+  async verifyOrder(jwt: string): Promise<JWTPayload> {
     return this.callEndpoint(pizzaFactoryUrl + '/api/order/verify', 'POST', { jwt });
   }
 
-  async getFranchise(user: User): Promise<Franchise | null> {
+  async getFranchise(user: User): Promise<Franchise[]> {
     return this.callEndpoint(`/api/franchise/${user.id}`);
   }
 
@@ -112,7 +112,7 @@ class HttpPizzaService implements PizzaService {
     return this.callEndpoint(`/api/franchise/${franchise.id}/store/${store.id}`, 'DELETE');
   }
 
-  async docs(docType: string): Promise<Object> {
+  async docs(docType: string): Promise<Endpoints> {
     if (docType === 'factory') {
       return this.callEndpoint(pizzaFactoryUrl + `/api/docs`);
     }

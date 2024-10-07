@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect } from 'react';
-import { useLocation, Routes, Route, NavLink } from 'react-router-dom';
+import { useLocation, Routes, Route } from 'react-router-dom';
 import Header from './header';
 import Footer from './footer';
 import Home from '../views/home';
@@ -23,11 +23,17 @@ import NotFound from '../views/notFound';
 import Docs from '../views/docs';
 import Breadcrumb from '../components/breadcrumb';
 import { pizzaService } from '../service/service';
-import { Role } from '../service/pizzaService';
+import { Role, User } from '../service/pizzaService';
 import 'preline/preline';
 
+declare global {
+  interface Window {
+    HSStaticMethods: any;
+  }
+}
+
 export default function App() {
-  const [user, setUser] = React.useState(null);
+  const [user, setUser] = React.useState<User | null>(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -59,7 +65,13 @@ export default function App() {
     { title: 'Home', to: '/', component: <Home />, display: [] },
     { title: 'Diner', to: '/diner-dashboard', component: <DinerDashboard user={user} />, display: [] },
     { title: 'Order', to: '/menu', component: <Menu />, display: ['nav'] },
-    { title: 'Franchise', to: '/franchise-dashboard', component: <FranchiseDashboard user={user} />, constraints: [isNotAdmin], display: ['nav', 'footer'] },
+    {
+      title: 'Franchise',
+      to: '/franchise-dashboard',
+      component: <FranchiseDashboard user={user} />,
+      constraints: [isNotAdmin],
+      display: ['nav', 'footer'],
+    },
     { title: 'About', to: '/about', component: <About />, display: ['footer'] },
     { title: 'History', to: '/history', component: <History />, display: ['footer'] },
     { title: 'Admin', to: '/admin-dashboard', component: <AdminDashboard user={user} />, constraints: [isAdmin], display: ['nav'] },
@@ -77,14 +89,14 @@ export default function App() {
   ];
 
   return (
-    <div className='bg-gray-800'>
-      <Header user={user} navItems={(user, navItems)} />
+    <div className="bg-gray-800">
+      <Header user={user} navItems={navItems} />
       <Breadcrumb location={location.pathname.replace('/', '')} />
 
-      <main className='size-full'>
+      <main className="size-full">
         <Routes>
           {navItems.map((item) => (
-            <Route key={item.title} path={item.to} element={item.component} exact />
+            <Route key={item.title} path={item.to} element={item.component} />
           ))}
         </Routes>
       </main>
