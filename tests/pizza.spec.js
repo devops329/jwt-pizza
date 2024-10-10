@@ -725,6 +725,27 @@ test('verify mocked', async ({ page }) => {
     expect(route.request().method()).toBe('POST');
     route.fulfill({ json: orderPost });
   });
+  page.route('*/**/api/order/menu', route => {
+    const menuGet = [
+      {
+        id: 1,
+        name: "Veggie A",
+        description: "Veggie",
+        image: "veggie.jpg",
+        price: 0.018
+      },
+      {
+        id: 2,
+        name: "Margarita",
+        description: "Margarita",
+        image: "margarita.jpg",
+        price: 0.0
+      }
+    ];
+    expect(route.request().method()).toBe('GET');
+    route.fulfill({ json: menuGet });
+  }
+  )
   await page.route('*/**/api/order/verify', route => {
     const verifyPost = {
       message: "valid",
@@ -798,6 +819,27 @@ test('verify mocked fail', async ({ page }) => {
     expect(route.request().method()).toBe('POST');
     route.fulfill({ json: orderPost });
   });
+  page.route('*/**/api/order/menu', route => {
+    const menuGet = [
+      {
+        id: 1,
+        name: "Veggie A",
+        description: "Veggie",
+        image: "veggie.jpg",
+        price: 0.018
+      },
+      {
+        id: 2,
+        name: "Margarita",
+        description: "Margarita",
+        image: "margarita.jpg",
+        price: 0.0
+      }
+    ];
+    expect(route.request().method()).toBe('GET');
+    route.fulfill({ json: menuGet });
+  }
+  )
   await page.goto('http://localhost:5173/');
   await page.getByRole('link', { name: 'Login' }).click();
   await page.getByPlaceholder('Email address').fill('d@jwt.com');
