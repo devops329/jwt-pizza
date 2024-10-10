@@ -36,6 +36,22 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist/
+
+      - name: Run tests
+        run: |
+          npx playwright install --with-deps chromium
+          npm run test:coverage
+
+      - name: Update coverage
+        run: |
+          coverage_pct=$(grep -o '"pct":[0-9.]*' coverage/coverage-summary.json | head -n 1 | cut -d ':' -f 2)
+          color=$(echo "$coverage_pct < 80" | bc -l | awk '{if ($1) print "yellow"; else print "green"}')
+          curl https://img.shields.io/badge/Coverage-$coverage_pct%25-$color -o coverageBadge.svg
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "generated"
+          git push
   deploy:
     needs: build
     permissions:
