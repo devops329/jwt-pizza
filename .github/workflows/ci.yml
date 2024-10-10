@@ -18,8 +18,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
-
+          node-version: "20.x"
       - name: set version
         id: set_version
         run: |
@@ -31,6 +30,22 @@ jobs:
         run: |
           npm ci && npm run build
           cp dist/index.html dist/404.html
+
+      - name: Run tests
+        run: |
+          npx playwright install --with-deps chromium
+          npm run test:coverage
+
+      - name: Update coverage
+        run: |
+          coverage_pct=$(grep -o '"pct":[0-9.]*' coverage/coverage-summary.json | head -n 1 | cut -d ':' -f 2)
+          color=$(echo "$coverage_pct < 80" | bc -l | awk '{if ($1) print "yellow"; else print "green"}')
+          curl https://img.shields.io/badge/Coverage-$coverage_pct%25-$color -o coverageBadge.svg
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "generated"
+          git push
 
       - name: Update pages artifact
         uses: actions/upload-pages-artifact@v3
