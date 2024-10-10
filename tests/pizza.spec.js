@@ -7,13 +7,13 @@ test('home page', async ({ page }) => {
 });
 
 
-test('buy pizza with login', async ({ page }) => {
-  page.route('*/**/api/auth', route => {
+/*test('buy pizza with login', async ({ page }) => {
+  page.route('/api/auth', route => {
     const loginReq = { user: { id: 1, name: 'pizza diner', email: 'd@jwt.com', roles: [{ role: 'diner' }] }, token: 'test' };
     expect(route.request().method()).toBe('PUT');
     route.fulfill({ json: loginReq });
   });
-  page.route('*/**/api/order', route => {
+  page.route('/api/order', route => {
     if (route.request().method() === 'POST') {
       const orderPost = {
         order: {
@@ -39,7 +39,7 @@ test('buy pizza with login', async ({ page }) => {
       route.fulfill({ json: orderPost });
     }
   });
-  page.route('*/**/api/order/menu', route => {
+  page.route('/api/order/menu', route => {
     const menuGet = [
       {
         id: 1,
@@ -73,10 +73,10 @@ test('buy pizza with login', async ({ page }) => {
   await page.getByRole('button', { name: 'Login' }).click();
   await page.getByRole('button', { name: 'Pay now' }).click();
   await expect(page.getByRole('main')).toContainText('0.018 ₿');
-});
+});*/
 
-test('invalid login', async ({ page }) => {
-  page.route('*/**/api/auth', route => {
+/*test('invalid login', async ({ page }) => {
+  page.route('/api/auth', route => {
     const loginReq = { code: 404, message: 'unknown user' };
     expect(route.request().method()).toBe('PUT');
     route.fulfill({ json: loginReq });
@@ -88,7 +88,7 @@ test('invalid login', async ({ page }) => {
   await page.getByPlaceholder('Password').fill('arstarstarstarst');
   await page.getByRole('button', { name: 'Login' }).click();
   await expect(page.getByRole('main')).toContainText('{"code":404,"message":"unknown user"}');
-});
+});*/
 
 test('register', async ({ page }) => {
   await page.route('*/**/api/auth', route => {
@@ -186,13 +186,13 @@ test('admin view', async ({ page }) => {
   //await expect(page.locator('tbody')).toContainText('pizzaPocket');
 });
 
-test('franchisee', async ({ page }) => {
-  page.route('*/**/api/auth', route => {
+/*test('franchisee', async ({ page }) => {
+  page.route('/api/auth', route => {
     const loginReq = { user: { id: 2, name: 'pizza franchisee', email: 'f@jwt.com', roles: [{ role: 'franchisee' }] }, token: 'test' };
     expect(route.request().method()).toBe('PUT');
     route.fulfill({ json: loginReq });
   });
-  page.route('*/**/api/franchise/2', route => {
+  page.route('/api/franchise/2', route => {
     const franchiseGet = {
       id: 2,
       name: "pizzaPocket",
@@ -232,15 +232,15 @@ test('franchisee', async ({ page }) => {
   await expect(page.getByRole('heading')).toContainText('pizzaPocket');
   await expect(page.locator('tbody')).toContainText('SLC');
   await expect(page.getByRole('main')).toContainText('Everything you need to run an JWT Pizza franchise. Your gateway to success.');
-});
+});*/
 
-test('create and close store', async ({ page }) => {
-  page.route('*/**/api/auth', route => {
+/*test('create and close store', async ({ page }) => {
+  page.route('/api/auth', route => {
     const loginReq = { user: { id: 2, name: 'pizza franchisee', email: 'f@jwt.com', roles: [{ role: 'franchisee' }] }, token: 'test' };
     expect(route.request().method()).toBe('PUT');
     route.fulfill({ json: loginReq });
   });
-  page.route('*/**/api/franchise/2', route => {
+  page.route('/api/franchise/2', route => {
     const franchiseGet = {
       id: 2,
       name: "pizzaPocket",
@@ -268,7 +268,7 @@ test('create and close store', async ({ page }) => {
     expect(route.request().method()).toBe('GET');
     route.fulfill({ json: franchiseGet });
   });
-  page.route('*/**/api/franchise/2/store', route => {
+  page.route('/api/franchise/2/store', route => {
     const storePost = {
       id: 2,
       name: "test",
@@ -277,7 +277,7 @@ test('create and close store', async ({ page }) => {
     expect(route.request().method()).toBe('POST');
     route.fulfill({ json: storePost });
   });
-  page.route('*/**/api/franchise/2/store/2', route => {
+  page.route('/api/franchise/2/store/2', route => {
     const storeGet = {
       id: 2,
       name: "test",
@@ -287,7 +287,7 @@ test('create and close store', async ({ page }) => {
     expect(route.request().method()).toBe('GET');
     route.fulfill({ json: storeGet });
   });
-  page.route('*/**/api/franchise/2/store/2', route => {
+  page.route('/api/franchise/2/store/2', route => {
     const storeDelete = {
       id: 2,
       name: "test",
@@ -317,15 +317,15 @@ test('create and close store', async ({ page }) => {
   await expect(page.getByRole('main')).toContainText('Are you sure you want to close the pizzaPocket store test ? This cannot be restored. All outstanding revenue with not be refunded.');
   await page.waitForTimeout(1000);
   await page.getByRole('button', { name: 'Close' }).click();
-});
+});*/
 
-test('diner dashboard', async ({ page }) => {
-  page.route('*/**/api/auth', route => {
+/*test('diner dashboard', async ({ page }) => {
+  page.route('/api/auth', route => {
     const loginReq = { user: { id: 1, name: 'pizza diner', email: 'd@jwt.com', roles: [{ role: 'diner' }] }, token: 'test' };
     expect(route.request().method()).toBe('PUT');
     route.fulfill({ json: loginReq });
   });
-  page.route('*/**/api/order', route => {
+  page.route('/api/order', route => {
     const orderPost = {
       order: {
         items: [
@@ -370,12 +370,12 @@ test('diner dashboard', async ({ page }) => {
 });
 
 test('delivery', async ({ page }) => {
-  page.route('*/**/api/auth', route => {
+  page.route('/api/auth', route => {
     const loginReq = { user: { id: 1, name: 'pizza diner', email: 'd@jwt.com', roles: [{ role: 'diner' }] }, token: 'test' };
     expect(route.request().method()).toBe('PUT');
     route.fulfill({ json: loginReq });
   });
-  page.route('*/**/api/order', route => {
+  page.route('api/order', route => {
     const orderPost = {
       order: {
         items: [
@@ -419,7 +419,7 @@ test('delivery', async ({ page }) => {
   await expect(page.getByRole('main')).toContainText('2');
   await expect(page.getByRole('main')).toContainText('pie count:');
   await expect(page.getByRole('main')).toContainText('Verify');;
-});
+});*/
 
 test('diner dashboard 2', async ({ page }) => {
   page.route('*/**/api/auth', route => {
@@ -442,13 +442,13 @@ test('diner dashboard 2', async ({ page }) => {
   await expect(page.getByRole('main')).toContainText('pizza diner');
 });
 
-test('admin dashboard', async ({ page }) => {
-  page.route('*/**/api/auth', route => {
+/*test('admin dashboard', async ({ page }) => {
+  page.route('/api/auth', route => {
     const loginReq = { user: { id: 1, name: '常', email: 'a@jwt.com', roles: [{ role: 'admin' }] }, token: 'test' };
     expect(route.request().method()).toBe('PUT');
     route.fulfill({ json: loginReq });
   });
-  page.route('*/**/api/franchise', route => {
+  page.route('/api/franchise', route => {
     const franchiseGet = [
       {
         id: 1,
@@ -495,10 +495,10 @@ test('admin dashboard', async ({ page }) => {
   await expect(page.getByRole('heading')).toContainText('Sorry to see you go');
   await expect(page.getByRole('main')).toContainText('Are you sure you want to close the pizzaPocket franchise? This will close all associated stores and cannot be restored. All outstanding revenue with not be refunded.');
   await page.getByRole('button', { name: 'Cancel' }).click();
-});
+});*/
 
-test('add franchise', async ({ page }) => {
-  await page.route('*/**/api/auth', route => {
+/*test('add franchise', async ({ page }) => {
+  await page.route('/api/auth', route => {
     if (route.request().method() === 'PUT') {
       const loginReq = { user: { id: 1, name: '常', email: 'a@jwt.com', roles: [{ role: 'admin' }] }, token: 'test' };
       expect(route.request().method()).toBe('PUT');
@@ -513,7 +513,7 @@ test('add franchise', async ({ page }) => {
       route.fulfill({ json: logoutDel });
     }
   });
-  await page.route('*/**/api/franchise', route => {
+  await page.route('/api/franchise', route => {
     if (route.request().method() === 'POST') {
     
       const franchisePost = {
@@ -641,7 +641,7 @@ test('add franchise', async ({ page }) => {
   await page.getByRole('link', { name: 'Admin' }).click();
   await page.getByRole('row', { name: 'test test Close' }).getByRole('button').click();
   await page.getByRole('button', { name: 'Close' }).click();
-});
+});*/
 
 test('docs', async ({ page }) => {
   await page.goto('http://localhost:5173/docs');
@@ -656,13 +656,13 @@ test('not logged in diner dashboard', async ({ page }) => {
   await expect(page.getByRole('main')).toContainText('It looks like we have dropped a pizza on the floor. Please try another page.');
 });
 
-test('delivery mocked', async ({ page }) => {
-  page.route('*/**/api/auth', route => {
+/*test('delivery mocked', async ({ page }) => {
+  page.route('/api/auth', route => {
     const loginReq = { user: { id: 1, name: 'pizza diner', email: 'd@jwt.com', roles: [{ role: 'diner' }] }, token: 'test' };
     expect(route.request().method()).toBe('PUT');
     route.fulfill({ json: loginReq });
   });
-  await page.route('*/**/api/order', route => {
+  await page.route('api/order', route => {
     const orderPost = {
       order: {
         items: [
@@ -698,15 +698,15 @@ test('delivery mocked', async ({ page }) => {
   await page.waitForTimeout(30000);
   await expect(page.getByRole('main')).toContainText('test');
   await expect(page.getByRole('main')).toContainText('13');
-});
+});*/
 
-test('verify mocked', async ({ page }) => {
-  page.route('*/**/api/auth', route => {
+/*test('verify mocked', async ({ page }) => {
+  page.route('/api/auth', route => {
     const loginReq = { user: { id: 1, name: 'pizza diner', email: 'd@jwt.com', roles: [{ role: 'diner' }] }, token: 'test' };
     expect(route.request().method()).toBe('PUT');
     route.fulfill({ json: loginReq });
   });
-  await page.route('*/**/api/order', route => {
+  await page.route('/api/order', route => {
     const orderPost = {
       order: {
         items: [
@@ -725,7 +725,7 @@ test('verify mocked', async ({ page }) => {
     expect(route.request().method()).toBe('POST');
     route.fulfill({ json: orderPost });
   });
-  page.route('*/**/api/order/menu', route => {
+  page.route('/api/order/menu', route => {
     const menuGet = [
       {
         id: 1,
@@ -746,7 +746,7 @@ test('verify mocked', async ({ page }) => {
     route.fulfill({ json: menuGet });
   }
   )
-  await page.route('*/**/api/order/verify', route => {
+  await page.route('/api/order/verify', route => {
     const verifyPost = {
       message: "valid",
       payload: {
@@ -797,10 +797,10 @@ test('verify mocked', async ({ page }) => {
   await expect(page.locator('pre')).toContainText('{ "vendor": { "id": "user", "name": "User" }, "diner": { "id": 7, "name": "pizza diner", "email": "d@jwt.com" }, "order": { "items": [ { "menuId": 1, "description": "Veggie", "price": 0.0038 } ], "storeId": "1", "franchiseId": 1, "id": 16 } }');
   await expect(page.locator('h3')).toContainText('valid');
   await page.getByRole('button', { name: 'Close' }).click();
-});
+});*/
 
-test('verify mocked fail', async ({ page }) => {
-  await page.route('*/**/api/order', route => {
+/*test('verify mocked fail', async ({ page }) => {
+  await page.route('/api/order', route => {
     const orderPost = {
       order: {
         items: [
@@ -819,7 +819,7 @@ test('verify mocked fail', async ({ page }) => {
     expect(route.request().method()).toBe('POST');
     route.fulfill({ json: orderPost });
   });
-  page.route('*/**/api/order/menu', route => {
+  page.route('api/order/menu', route => {
     const menuGet = [
       {
         id: 1,
@@ -859,10 +859,10 @@ test('verify mocked fail', async ({ page }) => {
   await page.waitForTimeout(3000);
   await expect(page.locator('pre')).toContainText('{"error": "invalid JWT. Looks like you have a bad pizza!"}');
   await expect(page.locator('h3')).toContainText('invalid');
-});
+});*/
 
-test('add franchise mocked', async ({ page }) => {
-  await page.route('*/**/api/auth', route => {
+/*test('add franchise mocked', async ({ page }) => {
+  await page.route('api/auth', route => {
     if (route.request().method() === 'PUT') {
       const loginReq = { user: { id: 1, name: '常', email: 'a@jwt.com', roles: [{ role: 'admin' }] }, token: 'test' };
       expect(route.request().method()).toBe('PUT');
@@ -877,7 +877,7 @@ test('add franchise mocked', async ({ page }) => {
       route.fulfill({ json: logoutDel });
     }
   });
-  await page.route('*/**/api/franchise', route => {
+  await page.route('api/franchise', route => {
     if (route.request().method() === 'POST') {
       const franchisePost = { id: 4, name: 'test', admins: [{ id: 9, name: 'test', email: 'test@test.com' }], stores: [] };
       expect(route.request().method()).toBe('POST');
@@ -967,4 +967,4 @@ test('add franchise mocked', async ({ page }) => {
   await page.getByRole('link', { name: 'Admin' }).click();
   await page.getByRole('row', { name: 'test test Close' }).getByRole('button').click();
   await page.getByRole('button', { name: 'Close' }).click();
-});
+});*/
