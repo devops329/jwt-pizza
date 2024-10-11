@@ -12,5 +12,9 @@ test('guest view check static pages', async ({ page }) => {
   await page.getByRole('link', { name: 'History' }).click();
   await expect(page.getByText('Mama Rucci, my my')).toBeVisible();
   await expect(page.getByRole('main').getByRole('img')).toBeVisible();
+  await page.goto('/apple');
+  await expect(page.getByText('It looks like we have dropped a pizza on the floor. Please try another page.')).toBeVisible();
+  await page.goto('/docs');
+  await expect(page.getByText('Register a new user')).toBeVisible();
   await page.goto('/');
 });

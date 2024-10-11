@@ -31,5 +31,12 @@ test("order pizza", async ({ page }) => {
 	await expect(page.locator("tbody")).toContainText("Veggie");
 	await page.getByRole("button", { name: "Pay now" }).click();
 	await expect(page.getByRole("main")).toContainText("0.008 ₿");
+	await page.getByRole("button", { name: "Verify" }).click();
+	await expect(
+		page.getByRole("heading", { name: "JWT Pizza - valid" })
+	).toBeVisible();
+	await page.getByRole("button", { name: "Close" }).click();
+	await page.getByRole("button", { name: "Order more" }).click();
+
 	await page.getByRole("link", { name: "Logout" }).click();
 });
