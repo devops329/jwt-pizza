@@ -1,6 +1,6 @@
 import { test, expect } from "playwright-test-coverage";
 
-test('test', async ({ page }) => {
+test('guest view check static pages', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('contentinfo').getByRole('link', { name: 'Franchise' }).click();
   await expect(page.getByText('So you want a piece of the')).toBeVisible();
