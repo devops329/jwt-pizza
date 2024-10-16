@@ -2,9 +2,7 @@
 
 ![Coverage badge](coverageBadge.svg)
 
-
 [![CI Pipeline](https://github.com/KaidenWilliams/jwt-pizza/actions/workflows/ci.yml/badge.svg)](https://github.com/KaidenWilliams/jwt-pizza/actions/workflows/ci.yml)
-
 
 A JSON Web Token, or [JWT](https://jwt.io/introduction), (pronounced JOT) is a digitally signed transfer of information using JSON notation. Because you can validate the digital signature you can buy JWT pizzas with confidence.
 
@@ -78,7 +76,7 @@ Modify `tailwind.config.js`
 ```js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['index.html', './src/**/*.{html,js,jsx}'],
+  content: ["index.html", "./src/**/*.{html,js,jsx}"],
   theme: {
     extend: {},
   },
@@ -116,25 +114,29 @@ npm i preline
 Updated the tailwind config to use preline.
 
 ```js
-const defaultTheme = require('tailwindcss/defaultTheme');
+const defaultTheme = require("tailwindcss/defaultTheme");
 
 module.exports = {
-  content: ['index.html', './src/**/*.{html,js,jsx}', './node_modules/preline/preline.js'],
+  content: [
+    "index.html",
+    "./src/**/*.{html,js,jsx}",
+    "./node_modules/preline/preline.js",
+  ],
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter var', ...defaultTheme.fontFamily.sans],
+        sans: ["Inter var", ...defaultTheme.fontFamily.sans],
       },
     },
   },
-  plugins: [require('preline/plugin')],
+  plugins: [require("preline/plugin")],
 };
 ```
 
 Import preline into app.jsx.
 
 ```js
-import 'preline/preline';
+import "preline/preline";
 ```
 
 Initialize components whenever the page location changes.
