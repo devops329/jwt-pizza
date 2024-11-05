@@ -42,6 +42,9 @@ jobs:
     permissions:
       id-token: write
     runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://pizza.KaidenWilliams.com
     env:
       version: ${{needs.build.outputs.version}}
     steps:
