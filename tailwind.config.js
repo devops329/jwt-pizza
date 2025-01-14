@@ -1,7 +1,7 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
-  content: ['index.html', './src/**/*.{html,js,jsx}', './node_modules/preline/preline.js'],
+  content: ['index.html', './src/**/*.{html,js,tsx}', './node_modules/preline/preline.js'],
   theme: {
     extend: {
       animation: {
