@@ -9,11 +9,8 @@ As part of `Deliverable ⓵ Development deployment: JWT Pizza`, start up the app
 | View home page                                      |   home.jsx                 |  none                 |    none          |
 | Register new user<br/>(t@jwt.com, pw: test)         |   login.jsx                 |    [POST] /api/auth               |   INSERT INTO user (name, email, password)VALUES (?, ?, ?) INSERT INTO userRole (userId, role, objectId) VALUES (?, ?, ?) |
 | Login new user<br/>(t@jwt.com, pw: test)            |    login.jsx                |      [PUT] /api/auth             |  INSERT INTO auth (token, userId) VALUES (?, ?)           |
-| Order pizza                                         |      menu.jsx              |        [POST] /api/order          |              | INSERT INTO dinerOrder (dinerId, franchiseId, storeId, date) VALUES (?, ?, ?, now())
-INSERT INTO orderItem (orderId, menuId, description, price) VALUES (?, ?, ?, ?)
-| Verify pizza                                        |   delivery.jsx                 |         [POST] /api/order/verify          |     SELECT id, franchiseId, storeId, date FROM dinerOrder WHERE dinerId=? LIMIT ${offset},${config.db.listPerPage}
-SELECT id, menuId, description, price FROM orderItem WHERE orderId=?
-         |
+| Order pizza                                         |      menu.jsx              |        [POST] /api/order          |  INSERT INTO dinerOrder (dinerId, franchiseId, storeId, date) VALUES (?, ?, ?, now()) INSERT INTO orderItem (orderId, menuId, description, price) VALUES (?, ?, ?, ?)            | 
+| Verify pizza                                        |   delivery.jsx                 |         [POST] /api/order/verify          |     SELECT id, franchiseId, storeId, date FROM dinerOrder WHERE dinerId=? LIMIT ${offset},${config.db.listPerPage} SELECT id, menuId, description, price FROM orderItem WHERE orderId=? |
 | View profile page                                   |     dinerDashboard.jsx               |      [GET] /api/order            |      SELECT id, franchiseId, storeId, date FROM dinerOrder WHERE dinerId=? LIMIT ${offset},${config.db.listPerPage}
 SELECT id, menuId, description, price FROM orderItem WHERE orderId=?        |
 | View franchise<br/>(as diner)                       |     franchiseDashboard.jsx               |     [GET] /api/franchise/3              |   SELECT objectId FROM userRole WHERE role='franchisee' AND userId=?
