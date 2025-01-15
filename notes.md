@@ -12,12 +12,12 @@ As part of `Deliverable ⓵ Development deployment: JWT Pizza`, start up the app
 | Order pizza                                         |menu.jsx, payment.jsx        |[GET]'/api/order/menu', [OPTIONS]'/api/franchise',[GET]'/api/franchise' Payment([Options]'/api/order', [POST]'/api/order') |SELECT userId FROM auth WHERE token=?,SELECT * FROM menu, SELECT userId FROM auth WHERE token=?, Payment(SELECT userId FROM auth WHERE token=?)|
 | Verify pizza                                        |delivery.jsx        |None               |None          |
 | View profile page                                   |dinerDashboard.jsx  |[GET]'/api/order'  |SELECT userId FROM auth WHERE token=?,SELECT id, franchiseId, storeId, date FROM dinerOrder WHERE dinerId=? LIMIT ${offset},${config.db.listPerPage},SELECT id, menuId, description, price FROM orderItem WHERE orderId=?              |
-| View franchise<br/>(as diner)                       |None                |[GET]'/api/franchise/4'                   |SELECT userId FROM auth WHERE token=?              |
+| View franchise<br/>(as diner)                       |franchiseDashboard.jsx|[GET]'/api/franchise/4'                   |SELECT userId FROM auth WHERE token=?              |
 | Logout                                              |logout.jsx          |[REQUEST]'/api/auth'[DELETE]'/api/auth'|SELECT userId FROM auth WHERE token=?,DELETE FROM auth WHERE token=?              |
 | View About page                                     |about.jsx           |None               |None          |
 | View History page                                   |history.jsx         |None               |None          |
 | Login as franchisee<br/>(f@jwt.com, pw: franchisee) |login.jsx, home.jsx |[PUT]'/api/auth'   |SELECT * FROM user WHERE email=?, SELECT * FROM userRole WHERE userId=?,INSERT INTO auth (token, userId) VALUES (?, ?)              |
-| View franchise<br/>(as franchisee)                  |franchiseDashboard.Jsx|[GET]'/api/franchise/3'|SELECT userId FROM auth WHERE token=?|
+| View franchise<br/>(as franchisee)                  |franchiseDashboard.jsx|[GET]'/api/franchise/3'|SELECT userId FROM auth WHERE token=?|
 | Create a store                                      |createStore.jsx,franchiseDashboard.jsx|[POST]'/api/franchise/1/store',[GET]'/api/franchise/3'|SELECT userId FROM auth WHERE token=?,SELECT userId FROM auth WHERE token=?|
 | Close a store                                       |closeStore.jsx,franchiseDashboard.jsx|[DELETE]'/api/franchise/1/store/2',[GET]'/api/franchise/3'|SELECT userId FROM auth WHERE token=?,SELECT userId FROM auth WHERE token=?|
 | Login as admin<br/>(a@jwt.com, pw: admin)           |login.jsx           |[PUT]'/api/auth'   |SELECT * FROM user WHERE email=?, SELECT * FROM userRole WHERE userId=?,INSERT INTO auth (token, userId) VALUES (?, ?)|
