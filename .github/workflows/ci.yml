@@ -10,11 +10,14 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: create static deployment file
         run: |
           mkdir dist
-          echo "<h1>Hello GitHub Pages</h1>" >> dist/index.html
-          echo "<h1>See you later GitHub Pages</h1>" >> dist/index.html
+          cp cow.html dist/index.html
+          # echo "<h1>Hello GitHub Pages</h1>" >> dist/index.html
+          # echo "<h1>See you later GitHub Pages</h1>" >> dist/index.html
 
       - name: Update pages artifact
         uses: actions/upload-pages-artifact@v3
