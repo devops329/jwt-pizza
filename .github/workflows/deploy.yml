@@ -66,3 +66,5 @@ jobs:
           echo Deploying version $version
           aws s3 cp dist s3://${{ secrets.APP_BUCKET }} --recursive
           aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID }} --paths "/*"
+          cp dist/index.html dist/404.html
+
