@@ -33,10 +33,16 @@ jobs:
           npm ci && npm run build
           cp dist/index.html dist/404.html
 
-      - name: Update pages artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Verify dist directory
+        run: |
+          ls -la dist/ || echo "Error: dist/ directory not found!"
+
+      - name: Upload pages artifact
+        uses: actions/upload-artifact@v4  # Switch to upload-artifact@v4 for consistency
         with:
+          name: pages-artifact
           path: dist/
+          if-no-files-found: error  # Fail if no files are found to upload
 
   deploy:
     needs: build
@@ -47,13 +53,17 @@ jobs:
       version: ${{ needs.build.outputs.version }}  # Passes the version from the build job
     environment:
       name: production
-      url: https://pizza.jonahkunzler.click
+      url: https://pizza.byucsstudent.click
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: pages-artifact  # Assumes the artifact name from a prior build job
+          name: pages-artifact
           path: dist/
+
+      - name: Verify downloaded artifact
+        run: |
+          ls -la dist/ || echo "Error: Artifact download failed!"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
