@@ -1,78 +1,54 @@
-name: Deploy Frontend to S3
+name: CI Pipeline
 
 on:
   push:
     branches:
-      - main  # Trigger deployment when pushing to main
-  workflow_dispatch:  # Allow manual triggering
-
-permissions:
-  id-token: write  # Required for OIDC authentication
-  contents: write  # Changed from read to write for release creation
-  actions: read    # Allow reading workflow status
-
+      - main
+  workflow_dispatch:
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.package-version.outputs.version }}
+      version: ${{ steps.set_version.outputs.version }}
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: '22.x'
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build frontend
-        run: npm run build
-
-      - name: Capture package version
-        id: package-version
-        run: echo "version=$(jq -r .version package.json)" >> $GITHUB_ENV
-
-      - name: Update dist artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: package
-          path: dist/
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-    env:
-      version: ${{ needs.build.outputs.version }}
-    environment:
-      name: production
-      url: https://pizza.jonahkunzler.click
-    steps:
-      - name: Create OIDC token to AWS
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          audience: sts.amazonaws.com
-          aws-region: us-east-1
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/${{ secrets.CI_IAM_ROLE }}
-
-      - name: Download dist artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: package
-          path: dist/
-
-      - name: Push to AWS S3
+      - name: set version
+        id: set_version
         run: |
-          echo Deploying version $version
-          aws s3 cp dist s3://${{ secrets.APP_BUCKET }} --recursive
-          aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID }} --paths "/*"
+          version=$(date +'%Y%m%d.%H%M%S')
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          printf '{"version": "%s" }' "$version" > public/version.json
+
+      - name: Build
+        run: |
+          npm ci && npm run build
           cp dist/index.html dist/404.html
 
-  # ... (previous jobs: build and deploy remain unchanged)
+      - name: Update pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/
+  deploy:
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 
   release:
     needs: 
