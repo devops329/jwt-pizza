@@ -48,6 +48,9 @@ jobs:
       id-token: write
     env:
       version: ${{ needs.build.outputs.version }}
+    environment:
+      name: production
+      url: https://pizza.jonahkunzler.click
     steps:
       - name: Create OIDC token to AWS
         uses: aws-actions/configure-aws-credentials@v4
