@@ -52,8 +52,8 @@ jobs:
     env:
       version: ${{ needs.build.outputs.version }}  # Passes the version from the build job
     environment:
-      name: production
-      url: https://pizza.byucsstudent.click
+      name: staging
+      url: https://stage-pizza.byucsstudent.click
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
