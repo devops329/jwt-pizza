@@ -69,27 +69,31 @@ jobs:
           aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID }} --paths "/*"
           cp dist/index.html dist/404.html
 
+  # ... (previous jobs: build and deploy remain unchanged)
+
   release:
-    needs:
+    needs: 
       - build
       - deploy
     runs-on: ubuntu-latest
     permissions:
       contents: write  # Required for creating releases
     steps:
-      - name: Checkout repository  # Add checkout step
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Create Release
+      - name: Create GitHub Release
         uses: ncipollo/release-action@2c591bcc8ecdcd2db72b97d6147f871fcd833ba5
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}  # Explicitly pass GitHub token
-          tag: version-${{ needs.build.outputs.version }}
-          name: Version ${{ needs.build.outputs.version }}
-          makeLatest: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: v${{ needs.build.outputs.version }}
+          name: Release v${{ needs.build.outputs.version }}
           body: |
             ## 🚀 Changes
 
             ${{ github.event.head_commit.message }}
 
-            **commit**: ${{ github.sha }}
+            **Commit**: ${{ github.sha }}
+            **Version**: ${{ needs.build.outputs.version }}
+            **Deployed to**: S3 bucket ${{ secrets.APP_BUCKET }}
+          makeLatest: true
