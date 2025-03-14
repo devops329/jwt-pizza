@@ -1,0 +1,55 @@
+name: Production release
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release'
+        required: true
+      description:
+        required: true
+
+permissions:
+  id-token: write
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      version: ${{ github.event.inputs.version }}
+    environment:
+      name: production
+      url: https://pizza.jonahkunzler.click
+    steps:
+      - name: Create OIDC token to AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          audience: sts.amazonaws.com
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/${{ secrets.CI_IAM_ROLE }}
+
+      - name: Update the cloudfront distribution
+        run: |
+          # Get the current distribution and update it to use the new version
+          aws cloudfront get-distribution-config --id ${{ secrets.DISTRIBUTION_ID }} > original.json
+          etag=$(jq -r '.ETag' original.json)
+          jq '.DistributionConfig' original.json > request.json
+          jq --arg version "/$version" '.Origins.Items[0].OriginPath = $version' request.json > finalRequest.json
+          aws cloudfront update-distribution --id ${{ secrets.DISTRIBUTION_ID }} --if-match $etag --distribution-config file://finalRequest.json
+
+          # Wait for the distribution to deploy and then invalidate the cache
+          while [ "$(aws cloudfront get-distribution --id ${{ secrets.DISTRIBUTION_ID }} --query 'Distribution.Status' --output text)" != "Deployed" ]; do echo "Distribution is still updating..."; sleep 5; done
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID }} --paths "/*"
+
+      - name: Create production release
+        uses: ncipollo/release-action@2c591bcc8ecdcd2db72b97d6147f871fcd833ba5
+        with:
+          tag: production-version-${{ env.version }}
+          name: Production ${{ env.version }}
+          allowUpdates: true
+          generateReleaseNotes: true
+          makeLatest: true
+          body: |
+            ## 🚀 Description
+
+            ${{ github.event.inputs.description }}
