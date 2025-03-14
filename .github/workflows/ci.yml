@@ -79,6 +79,19 @@ jobs:
           # aws s3 sync dist/ s3://${{ secrets.APP_BUCKET }}/ --delete
           # aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID }} --paths "/*"
 
+      - name: Update staging version
+        run: |
+          # Get the current distribution and update it to use the new version
+          aws cloudfront get-distribution-config --id ${{ secrets.DISTRIBUTION_ID }} > original.json
+          etag=$(jq -r '.ETag' original.json)
+          jq '.DistributionConfig' original.json > request.json
+          jq --arg version "/$version" '.Origins.Items[0].OriginPath = $version' request.json > finalRequest.json
+          aws cloudfront update-distribution --id ${{ secrets.DISTRIBUTION_ID }} --if-match $etag --distribution-config file://finalRequest.json
+
+          # Wait for the distribution to deploy and then invalidate the cache
+          while [ "$(aws cloudfront get-distribution --id ${{ secrets.DISTRIBUTION_ID }} --query 'Distribution.Status' --output text)" != "Deployed" ]; do echo "Distribution is still updating..."; sleep 5; done
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID }} --paths "/*"
+
   release:
     needs:
       - build
