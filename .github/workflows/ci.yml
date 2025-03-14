@@ -5,6 +5,7 @@ on:
     branches:
       - main
   workflow_dispatch:
+
 jobs:
   build:
     name: Build
@@ -20,7 +21,7 @@ jobs:
         with:
           node-version: '22.x'
 
-      - name: set version
+      - name: Set version
         id: set_version
         run: |
           version=$(date +'%Y%m%d.%H%M%S')
@@ -36,22 +37,39 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist/
+
   deploy:
     needs: build
     permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      id-token: write  # Required for AWS OIDC authentication
     runs-on: ubuntu-latest
+    env:
+      version: ${{ needs.build.outputs.version }}  # Passes the version from the build job
+    environment:
+      name: production
+      url: https://pizza.jonahkunzler.click
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: pages-artifact  # Assumes the artifact name from a prior build job
+          path: dist/
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          audience: sts.amazonaws.com
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/${{ secrets.CI_IAM_ROLE }}
+
+      - name: Deploy to AWS S3
+        run: |
+          echo "Deploying version $version to S3"
+          aws s3 sync dist/ s3://${{ secrets.APP_BUCKET }}/ --delete
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID }} --paths "/*"
 
   release:
-    needs: 
+    needs:
       - build
       - deploy
     runs-on: ubuntu-latest
