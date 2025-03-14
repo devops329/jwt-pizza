@@ -1,4 +1,4 @@
-name: Deploy Frontend to S3
+name: Release
 
 on:
   push:
@@ -68,3 +68,23 @@ jobs:
           aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID }} --paths "/*"
           cp dist/index.html dist/404.html
 
+  release:
+    needs:
+      - build
+      - deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Release
+        uses: ncipollo/release-action@2c591bcc8ecdcd2db72b97d6147f871fcd833ba5
+        env:
+          version: ${{ needs.build.outputs.version }}
+        with:
+          tag: version-${{ env.version }}
+          name: Version ${{ env.version }}
+          makeLatest: true
+          body: |
+            ## 🚀 Changes
+
+            ${{ github.event.head_commit.message }}
+
+            **commit**: ${{ github.sha }}
