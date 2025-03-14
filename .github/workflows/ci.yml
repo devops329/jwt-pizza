@@ -1,4 +1,4 @@
-name: Release
+name: Deploy Frontend to S3
 
 on:
   push:
@@ -8,13 +8,14 @@ on:
 
 permissions:
   id-token: write  # Required for OIDC authentication
-  contents: read   # Read repo contents
+  contents: write  # Changed from read to write for release creation
+  actions: read    # Allow reading workflow status
 
 jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.package-version.outputs.version }}  # Capture the package version
+      version: ${{ steps.package-version.outputs.version }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -44,9 +45,9 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     permissions:
-      id-token: write  # Needed for OIDC authentication
+      id-token: write
     env:
-      version: ${{ needs.build.outputs.version }}  # Use captured version
+      version: ${{ needs.build.outputs.version }}
     steps:
       - name: Create OIDC token to AWS
         uses: aws-actions/configure-aws-credentials@v4
@@ -73,14 +74,18 @@ jobs:
       - build
       - deploy
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Required for creating releases
     steps:
+      - name: Checkout repository  # Add checkout step
+        uses: actions/checkout@v4
+
       - name: Create Release
         uses: ncipollo/release-action@2c591bcc8ecdcd2db72b97d6147f871fcd833ba5
-        env:
-          version: ${{ needs.build.outputs.version }}
         with:
-          tag: version-${{ env.version }}
-          name: Version ${{ env.version }}
+          token: ${{ secrets.GITHUB_TOKEN }}  # Explicitly pass GitHub token
+          tag: version-${{ needs.build.outputs.version }}
+          name: Version ${{ needs.build.outputs.version }}
           makeLatest: true
           body: |
             ## 🚀 Changes
