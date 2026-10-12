@@ -14,6 +14,14 @@ module.exports = {
           '75%': { transform: 'rotate(5deg)' },
         },
       },
+      colors: {
+        jwt: {
+          brown: '#6F5537',
+          blue: '#538FD8',
+          cream: '#F7F2EA',
+          red: '#C92D1F',
+        },
+      },
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
       },

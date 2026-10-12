@@ -38,9 +38,9 @@ export default function Payment() {
     <View title="So worth it">
       <div className="flex flex-col justify-center items-center py-8 px-4 sm:px-6 lg:px-8">
         {errMessage && <div className="text-orange-700 bg-yellow-100 p-2 rounded-md">⚠️ {errMessage}</div>}
-        {!errMessage && order.items.length === 1 && <div className="text-neutral-100  p-2 rounded-md">Send me that pizza right now!</div>}
+        {!errMessage && order.items.length === 1 && <div className="text-jwt-brown  p-2 rounded-md">Send me that pizza right now!</div>}
         {!errMessage && order.items.length > 1 && (
-          <div className="text-neutral-100 p-2 rounded-md">Send me those {order.items.length} pizzas right now!</div>
+          <div className="text-jwt-brown p-2 rounded-md">Send me those {order.items.length} pizzas right now!</div>
         )}
         <div>
           <Button title="Pay now" onPress={processPayment} />
@@ -52,7 +52,7 @@ export default function Payment() {
               <div className="p-1.5 min-w-full inline-block align-middle">
                 <div className="overflow-hidden">
                   <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="text-neutral-100 bg-slate-400 border-b-2 border-gray-500">
+                    <thead className="text-jwt-brown bg-slate-400 border-b-2 border-gray-500">
                       <tr>
                         <th scope="col" className="px-6 py-3 text-start text-xs sm:text-sm font-medium">
                           Pie

@@ -40,7 +40,7 @@ export default function Menu() {
   return (
     <View title="Awesome is a click away">
       <form onSubmit={checkout}>
-        <div className="flow flow-col text-center justify-center text-neutral-100  py-8 px-4 sm:px-6 lg:px-8">
+        <div className="flow flow-col text-center justify-center text-jwt-brown  py-8 px-4 sm:px-6 lg:px-8">
           <div className="my-2 sm:my-4">Pick your store and pizzas from below. Remember to order extra for a midnight party.</div>
 
           <div className="text-neutral-800 py-3">

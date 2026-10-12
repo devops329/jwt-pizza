@@ -38,7 +38,7 @@ export default function FranchiseDashboard(props: Props) {
 
   return (
     <View title={franchise.name}>
-      <div className="text-neutral-100">Everything you need to run an JWT Pizza franchise. Your gateway to success.</div>
+      <div className="text-jwt-brown">Everything you need to run an JWT Pizza franchise. Your gateway to success.</div>
 
       <div className="bg-neutral-100 overflow-clip my-4">
         <div className="flex flex-col">
@@ -46,7 +46,7 @@ export default function FranchiseDashboard(props: Props) {
             <div className="p-1.5 min-w-full inline-block align-middle">
               <div className="overflow-hidden">
                 <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="uppercase text-neutral-100 bg-slate-400 border-b-2 border-gray-500">
+                  <thead className="uppercase text-jwt-brown bg-slate-400 border-b-2 border-gray-500">
                     <tr>
                       {['Name', 'Revenue', 'Action'].map((header) => (
                         <th key={header} scope="col" className="px-6 py-3 text-center text-xs font-medium">
@@ -63,7 +63,7 @@ export default function FranchiseDashboard(props: Props) {
                         <td className="px-6 py-4 text-end text-sm font-medium">
                           <button
                             type="button"
-                            className="px-2 py-1 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-1 border-orange-400 text-orange-400 hover:border-orange-800 hover:text-orange-800"
+                            className="px-2 py-1 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-1 border-orange-400 text-orange-400 hover:border-jwt-red hover:text-jwt-red"
                             onClick={() => closeStore(franchise, store)}>
                             <TrashIcon />
                             Close
@@ -107,7 +107,7 @@ function whyFranchise() {
 
         <div>
           <OrderNow />
-          <p className="py-2 text-neutral-100 text-start mx-4 pb-4 first-line:uppercase first-line:tracking-widest  first-letter:text-7xl first-letter:font-bold first-letter:text-orange-800  first-letter:mr-3 first-letter:float-left">
+          <p className="py-2 text-jwt-brown text-start mx-4 pb-4 first-line:uppercase first-line:tracking-widest  first-letter:text-7xl first-letter:font-bold first-letter:text-jwt-red  first-letter:mr-3 first-letter:float-left">
             Now is the time to get in on the JWT Pizza tsunami. The pizza sells itself. People cannot get enough. Setup your shop and let the pizza
             fly. Here are all the reasons why you should buy a franchise with JWT Pizza.
           </p>
@@ -133,7 +133,7 @@ function whyFranchise() {
                 <div className="p-1.5 min-w-full inline-block align-middle">
                   <div className="overflow-hidden">
                     <table className="min-w-full divide-y divide-gray-200">
-                      <thead className="uppercase text-neutral-100 bg-slate-400 border-b-2 border-gray-500">
+                      <thead className="uppercase text-jwt-brown bg-slate-400 border-b-2 border-gray-500">
                         <tr>
                           {['Year', 'Profit', 'Costs', 'Franchise Fee'].map((header) => (
                             <th key={header} scope="col" className="px-6 py-3 text-center text-xs font-medium">
@@ -170,7 +170,7 @@ function whyFranchise() {
           </div>
           <div className="py-4">
             <h2 className="py-2 text-2xl sm:text-4xl font-thin text-orange-600">Unleash Your Potential</h2>
-            <p className="py-2 text-neutral-100 text-start mx-4 pb-4 first-line:uppercase first-line:tracking-widest  first-letter:text-7xl first-letter:font-bold first-letter:text-orange-800  first-letter:mr-3 first-letter:float-left">
+            <p className="py-2 text-jwt-brown text-start mx-4 pb-4 first-line:uppercase first-line:tracking-widest  first-letter:text-7xl first-letter:font-bold first-letter:text-jwt-red  first-letter:mr-3 first-letter:float-left">
               Are you ready to embark on a journey towards unimaginable wealth? Owning a franchise with JWT Pizza is your ticket to financial success.
               With our proven business model and strong brand recognition, you have the opportunity to generate substantial revenue. Imagine the
               thrill of watching your profits soar year after year, as customers flock to your JWT Pizza, craving our mouthwatering creations.

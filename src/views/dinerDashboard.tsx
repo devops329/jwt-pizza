@@ -63,7 +63,7 @@ export default function DinerDashboard(props: Props) {
         </div>
 
         {orders?.length === 0 && (
-          <div className="text-neutral-100">
+          <div className="text-jwt-brown">
             How have you lived this long without having a pizza?{' '}
             <Link className="text-orange-400 underline font-semibold" to="/menu">
               Buy one
@@ -73,14 +73,14 @@ export default function DinerDashboard(props: Props) {
         )}
         {orders?.length > 0 && (
           <>
-            <div className="text-neutral-100">Here is your history of all the good times.</div>
+            <div className="text-jwt-brown">Here is your history of all the good times.</div>
             <div className="bg-neutral-100 overflow-clip my-4">
               <div className="flex flex-col">
                 <div className="-m-1.5 overflow-x-auto">
                   <div className="p-1.5 min-w-full inline-block align-middle">
                     <div className="overflow-hidden">
                       <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="uppercase text-neutral-100 bg-slate-400 border-b-2 border-gray-500">
+                        <thead className="uppercase text-jwt-brown bg-slate-400 border-b-2 border-gray-500">
                           <tr>
                             <th scope="col" className="px-6 py-3 text-start text-xs sm:text-sm font-medium">
                               ID

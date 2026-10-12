@@ -4,7 +4,7 @@ import View from './view';
 export default function History() {
   return (
     <View title='Mama Rucci, my my'>
-      <div className='text-neutral-100 text-start py-8 px-4 sm:px-6 lg:px-8'>
+      <div className='text-jwt-brown text-start py-8 px-4 sm:px-6 lg:px-8'>
         <img src='mamaRicci.png' className='w-64 m-4 float-right' />
         <div>
           It all started in Mama Ricci's kitchen. She would delight all of the cousins with a hot pie in any style they could think of Milanese, Chicago deep dish, Detroit square pan, Neapolitan, or

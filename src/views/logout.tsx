@@ -19,7 +19,7 @@ export default function Logout(props: Props) {
 
   return (
     <View title='Logout'>
-      <div className='text-neutral-100'>Logging out ...</div>
+      <div className='text-jwt-brown'>Logging out ...</div>
     </View>
   );
 }
