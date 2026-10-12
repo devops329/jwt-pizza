@@ -1,12 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 
-/*
- * Headed Chromium's default X11 backend crashes (SIGTRAP) under WSLg, which is what
- * the VS Code "Show browser" option uses. Its Wayland backend works, so opt into it
- * when we're running somewhere Wayland is available.
- */
 function useWayland(): boolean {
-  // WSL_DISTRO_NAME is only set inside WSL, so this doesn't affect CI or other machines.
   return process.env.WSL_DISTRO_NAME !== undefined;
 }
 

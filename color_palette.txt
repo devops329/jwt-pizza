@@ -1,0 +1,4 @@
+#FDFAF7 white
+#F7F2EA yellow cream
+#538FDB soft blue
+#C92D1F red
