@@ -43,8 +43,8 @@ export default function Menu() {
         <div className="flow flow-col text-center justify-center text-jwt-brown  py-8 px-4 sm:px-6 lg:px-8">
           <div className="my-2 sm:my-4">Pick your store and pizzas from below. Remember to order extra for a midnight party.</div>
 
-          <div className="text-neutral-800 py-3">
-            <select className="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-orange-500 focus:ring-orange-500 " value={selectedStore} required onChange={(e) => setSelectedStore(e.target.value)}>
+          <div className="text-dominos-gray-900 py-3">
+            <select className="py-3 px-4 pe-9 block w-full border-dominos-gray-200 rounded-lg text-sm focus:border-dominos-red focus:ring-dominos-red " value={selectedStore} required onChange={(e) => setSelectedStore(e.target.value)}>
               <option value="">choose store</option>
               {Object.values(storeMap).map((store) => (
                 <option key={store.store.id} value={store.store.id}>
@@ -54,8 +54,8 @@ export default function Menu() {
             </select>
           </div>
 
-          <div className="text-yellow-200">{order.items.length > 0 ? 'Selected pizzas: ' + order.items.length : 'What are you waiting for? Pick a store and then add some pizzas!'}</div>
-          <Button title="Checkout" submit disabled={!selectedStore || order.items.length <= 0} className="disabled:bg-neutral-500 disabled:text-neutral-700" onPress={() => {}} />
+          <div className="text-dominos-blue">{order.items.length > 0 ? 'Selected pizzas: ' + order.items.length : 'What are you waiting for? Pick a store and then add some pizzas!'}</div>
+          <Button title="Checkout" submit disabled={!selectedStore || order.items.length <= 0} className="disabled:bg-dominos-gray-400 disabled:text-dominos-gray-700" onPress={() => {}} />
 
           <div className="m-4 grid gap-x-8 gap-y-4 sm:gird-cols-1 md:grid-cols-2 lg:grid-cols-4 xlg:grid-cols-5">
             {menu.map((pizza) => (

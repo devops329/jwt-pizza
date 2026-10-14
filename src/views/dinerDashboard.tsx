@@ -48,10 +48,10 @@ export default function DinerDashboard(props: Props) {
 
         </div>
 
-        <div className="my-4 text-lg text-orange-200 text-start grid grid-cols-5 gap-2">
-          <div className="font-semibold text-orange-400">name:</div> <div className="col-span-4">{user.name}</div>
-          <div className="font-semibold text-orange-400">email:</div> <div className="col-span-4">{user.email}</div>
-          <div className="font-semibold text-orange-400">role:</div>{' '}
+        <div className="my-4 text-lg text-dominos-navy text-start grid grid-cols-5 gap-2">
+          <div className="font-semibold text-dominos-link">name:</div> <div className="col-span-4">{user.name}</div>
+          <div className="font-semibold text-dominos-link">email:</div> <div className="col-span-4">{user.email}</div>
+          <div className="font-semibold text-dominos-link">role:</div>{' '}
           <div className="col-span-4">
             {user.roles &&
               user.roles.map((role, index) => (
@@ -65,7 +65,7 @@ export default function DinerDashboard(props: Props) {
         {orders?.length === 0 && (
           <div className="text-jwt-brown">
             How have you lived this long without having a pizza?{' '}
-            <Link className="text-orange-400 underline font-semibold" to="/menu">
+            <Link className="text-dominos-link underline font-semibold" to="/menu">
               Buy one
             </Link>{' '}
             now!
@@ -79,8 +79,8 @@ export default function DinerDashboard(props: Props) {
                 <div className="-m-1.5 overflow-x-auto">
                   <div className="p-1.5 min-w-full inline-block align-middle">
                     <div className="overflow-hidden">
-                      <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="uppercase text-jwt-brown bg-slate-400 border-b-2 border-gray-500">
+                      <table className="min-w-full divide-y divide-dominos-gray-200">
+                        <thead className="uppercase text-jwt-brown bg-dominos-sky border-b-2 border-dominos-blue">
                           <tr>
                             <th scope="col" className="px-6 py-3 text-start text-xs sm:text-sm font-medium">
                               ID
@@ -93,12 +93,12 @@ export default function DinerDashboard(props: Props) {
                             </th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-200">
+                        <tbody className="divide-y divide-dominos-gray-200">
                           {orders.map((order, index) => (
-                            <tr key={index} className="hover:bg-gray-100">
-                              <td className="px-6 py-4 whitespace-nowrap text-start text-xs sm:text-sm font-medium text-gray-800">{order.id}</td>
-                              <td className="px-6 py-4 whitespace-nowrap text-start text-xs sm:text-sm text-gray-800">{order.items.reduce((a, c) => a + c.price, 0).toLocaleString()} ₿</td>
-                              <td className="px-6 py-4 whitespace-nowrap text-start text-xs sm:text-sm text-gray-800">{order.date.toLocaleString()}</td>
+                            <tr key={index} className="hover:bg-dominos-gray-100">
+                              <td className="px-6 py-4 whitespace-nowrap text-start text-xs sm:text-sm font-medium text-dominos-gray-900">{order.id}</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-start text-xs sm:text-sm text-dominos-gray-900">{order.items.reduce((a, c) => a + c.price, 0).toLocaleString()} ₿</td>
+                              <td className="px-6 py-4 whitespace-nowrap text-start text-xs sm:text-sm text-dominos-gray-900">{order.date.toLocaleString()}</td>
                             </tr>
                           ))}
                         </tbody>
@@ -114,24 +114,24 @@ export default function DinerDashboard(props: Props) {
       <div role="dialog" aria-modal="true" aria-labelledby="dialog-title" id="hs-jwt-modal" className="hs-overlay hidden size-full fixed top-10 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none">
   <div className="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto min-h-[calc(100%-3.5rem)]">
     <div className="w-full flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto   ">
-      <div className="flex justify-between items-center py-3 px-4 border-b bg-slate-200 rounded-t-xl ">
-        <h3 className="font-bold text-gray-800">Edit user</h3>
-        <button type="button" className="flex justify-center items-center size-7 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#hs-jwt-modal">
+      <div className="flex justify-between items-center py-3 px-4 border-b bg-dominos-gray-100 rounded-t-xl ">
+        <h3 className="font-bold text-dominos-gray-900">Edit user</h3>
+        <button type="button" className="flex justify-center items-center size-7 text-sm font-semibold rounded-full border border-transparent text-dominos-gray-900 hover:bg-dominos-gray-100 disabled:opacity-50 disabled:pointer-events-none" data-hs-overlay="#hs-jwt-modal">
           <CloseIcon className="" />
         </button>
       </div>
       <div className="p-4 overflow-y-scroll max-h-52">
         <div className="my-4 text-lg text-start grid grid-cols-5 gap-2 items-center">
           <div className="font-semibold">name:</div>
-          <input type="text" className="col-span-4 border border-gray-300 rounded-md p-1" defaultValue={user.name} ref={nameRef} />
+          <input type="text" className="col-span-4 border border-dominos-gray-200 rounded-md p-1" defaultValue={user.name} ref={nameRef} />
           <div className="font-semibold">email:</div>
-          <input type="email" className="col-span-4 border border-gray-300 rounded-md p-1" defaultValue={user.email} ref={emailRef} />
+          <input type="email" className="col-span-4 border border-dominos-gray-200 rounded-md p-1" defaultValue={user.email} ref={emailRef} />
           <div className="font-semibold">password:</div>
-          <input id="password" type="text" className="col-span-4 border border-gray-300 rounded-md p-1" defaultValue="" ref={passwordRef} />
+          <input id="password" type="text" className="col-span-4 border border-dominos-gray-200 rounded-md p-1" defaultValue="" ref={passwordRef} />
         </div>
       </div>
-      <div className="flex justify-end items-center gap-x-2 py-3 px-4 border-t  bg-slate-200 rounded-b-xl">
-        <button type="button" className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none" onClick={updateUser}>
+      <div className="flex justify-end items-center gap-x-2 py-3 px-4 border-t  bg-dominos-gray-100 rounded-b-xl">
+        <button type="button" className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-dominos-gray-200 bg-white text-dominos-gray-900 shadow-sm hover:bg-dominos-gray-50 disabled:opacity-50 disabled:pointer-events-none" onClick={updateUser}>
           Update
         </button>
       </div>

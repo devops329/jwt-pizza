@@ -50,8 +50,8 @@ export default function AdminDashboard(props: Props) {
               <div className="-m-1.5 overflow-x-auto">
                 <div className="p-1.5 min-w-full inline-block align-middle">
                   <div className="overflow-hidden">
-                    <table className="min-w-full divide-y divide-gray-200">
-                      <thead className="uppercase text-jwt-brown bg-slate-400 border-b-2 border-gray-500">
+                    <table className="min-w-full divide-y divide-dominos-gray-200">
+                      <thead className="uppercase text-jwt-brown bg-dominos-sky border-b-2 border-dominos-blue">
                         <tr>
                           {['Franchise', 'Franchisee', 'Store', 'Revenue', 'Action'].map((header) => (
                             <th key={header} scope="col" className="px-6 py-3 text-center text-xs font-medium">
@@ -62,14 +62,14 @@ export default function AdminDashboard(props: Props) {
                       </thead>
                       {franchiseList.franchises.map((franchise, findex) => {
                         return (
-                          <tbody key={findex} className="divide-y divide-gray-200">
-                            <tr className="border-neutral-500 border-t-2">
-                              <td className="text-start px-2 whitespace-nowrap text-l font-mono text-orange-600">{franchise.name}</td>
-                              <td className="text-start px-2 whitespace-nowrap text-sm font-normal text-gray-800" colSpan={3}>
+                          <tbody key={findex} className="divide-y divide-dominos-gray-200">
+                            <tr className="border-dominos-gray-500 border-t-2">
+                              <td className="text-start px-2 whitespace-nowrap text-l font-mono text-dominos-blue">{franchise.name}</td>
+                              <td className="text-start px-2 whitespace-nowrap text-sm font-normal text-dominos-gray-900" colSpan={3}>
                                 {franchise.admins?.map((o) => o.name).join(', ')}
                               </td>
                               <td className="px-6 py-1 whitespace-nowrap text-end text-sm font-medium">
-                                <button type="button" className="px-2 py-1 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-1 border-orange-400 text-orange-400  hover:border-jwt-red hover:text-jwt-red" onClick={() => closeFranchise(franchise)}>
+                                <button type="button" className="px-2 py-1 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-1 border-dominos-link text-dominos-link  hover:border-jwt-red hover:text-jwt-red" onClick={() => closeFranchise(franchise)}>
                                   <TrashIcon />
                                   Close
                                 </button>
@@ -79,12 +79,12 @@ export default function AdminDashboard(props: Props) {
                             {franchise.stores.map((store, sindex) => {
                               return (
                                 <tr key={sindex} className="bg-neutral-100">
-                                  <td className="text-end px-2 whitespace-nowrap text-sm text-gray-800" colSpan={3}>
+                                  <td className="text-end px-2 whitespace-nowrap text-sm text-dominos-gray-900" colSpan={3}>
                                     {store.name}
                                   </td>
-                                  <td className="text-end px-2 whitespace-nowrap text-sm text-gray-800">{store.totalRevenue?.toLocaleString()} ₿</td>
+                                  <td className="text-end px-2 whitespace-nowrap text-sm text-dominos-gray-900">{store.totalRevenue?.toLocaleString()} ₿</td>
                                   <td className="px-6 py-1 whitespace-nowrap text-end text-sm font-medium">
-                                    <button type="button" className="px-2 py-1 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-1 border-orange-400 text-orange-400 hover:border-jwt-red hover:text-jwt-red" onClick={() => closeStore(franchise, store)}>
+                                    <button type="button" className="px-2 py-1 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-1 border-dominos-link text-dominos-link hover:border-jwt-red hover:text-jwt-red" onClick={() => closeStore(franchise, store)}>
                                       <TrashIcon />
                                       Close
                                     </button>
@@ -98,16 +98,16 @@ export default function AdminDashboard(props: Props) {
                       <tfoot>
                         <tr>
                           <td className="px-1 py-1">
-                            <input type="text" ref={filterFranchiseRef} name="filterFranchise" placeholder="Filter franchises" className="px-2 py-1 text-sm border border-gray-300 rounded-lg" />
-                            <button type="submit" className="ml-2 px-2 py-1 text-sm font-semibold rounded-lg border border-orange-400 text-orange-400 hover:border-jwt-red hover:text-jwt-red" onClick={filterFranchises}>
+                            <input type="text" ref={filterFranchiseRef} name="filterFranchise" placeholder="Filter franchises" className="px-2 py-1 text-sm border border-dominos-gray-200 rounded-lg" />
+                            <button type="submit" className="ml-2 px-2 py-1 text-sm font-semibold rounded-lg border border-dominos-link text-dominos-link hover:border-jwt-red hover:text-jwt-red" onClick={filterFranchises}>
                               Submit
                             </button>
                           </td>
                           <td colSpan={4} className="text-end text-sm font-medium">
-                            <button className="w-12 p-1 text-sm font-semibold rounded-lg border border-transparent bg-white text-grey border-grey m-1 hover:bg-orange-200 disabled:bg-neutral-300 " onClick={() => setFranchisePage(franchisePage - 1)} disabled={franchisePage <= 0}>
+                            <button className="w-12 p-1 text-sm font-semibold rounded-lg border border-transparent bg-white text-grey border-grey m-1 hover:bg-dominos-sky disabled:bg-dominos-gray-200 " onClick={() => setFranchisePage(franchisePage - 1)} disabled={franchisePage <= 0}>
                               «
                             </button>
-                            <button className="w-12 p-1 text-sm font-semibold rounded-lg border border-transparent bg-white text-grey border-grey m-1 hover:bg-orange-200 disabled:bg-neutral-300" onClick={() => setFranchisePage(franchisePage + 1)} disabled={!franchiseList.more}>
+                            <button className="w-12 p-1 text-sm font-semibold rounded-lg border border-transparent bg-white text-grey border-grey m-1 hover:bg-dominos-sky disabled:bg-dominos-gray-200" onClick={() => setFranchisePage(franchisePage + 1)} disabled={!franchiseList.more}>
                               »
                             </button>
                           </td>

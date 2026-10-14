@@ -9,7 +9,7 @@ export default function Quote(props: Props) {
   return (
     <blockquote className="relative m-10">
       <svg
-        className="absolute text-xl -top-6 -start-8 size-16 text-slate-300"
+        className="absolute text-xl -top-6 -start-8 size-16 text-dominos-gray-200"
         width="16"
         height="16"
         viewBox="0 0 16 16"
@@ -22,10 +22,10 @@ export default function Quote(props: Props) {
       </svg>
 
       <div className="relative z-10">
-        <p className="text-gray-800">
+        <p className="text-dominos-gray-900">
           <em>
             {props.quote}
-            <span className="text-gray-400"> — {props.author}</span>
+            <span className="text-dominos-gray-400"> — {props.author}</span>
           </em>
         </p>
       </div>

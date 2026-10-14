@@ -17,7 +17,7 @@ test('updateUser', async ({ page }) => {
     await page.getByRole('button', { name: 'Edit' }).click();
     
     await expect(page.locator('h3')).toContainText('Edit user');
-    await page.getByRole('textbox').first().fill('pizza dinerx');
+    await page.getByRole('textbox').first().fill('pizza diner');
     await page.getByRole('button', { name: 'Update' }).click();
 
     await page.waitForSelector('[role="dialog"].hidden', { state: 'attached' });

@@ -37,22 +37,22 @@ export default function Payment() {
   return (
     <View title="So worth it">
       <div className="flex flex-col justify-center items-center py-8 px-4 sm:px-6 lg:px-8">
-        {errMessage && <div className="text-orange-700 bg-yellow-100 p-2 rounded-md">⚠️ {errMessage}</div>}
+        {errMessage && <div className="text-dominos-darkred bg-dominos-blush p-2 rounded-md">⚠️ {errMessage}</div>}
         {!errMessage && order.items.length === 1 && <div className="text-jwt-brown  p-2 rounded-md">Send me that pizza right now!</div>}
         {!errMessage && order.items.length > 1 && (
           <div className="text-jwt-brown p-2 rounded-md">Send me those {order.items.length} pizzas right now!</div>
         )}
         <div>
           <Button title="Pay now" onPress={processPayment} />
-          <Button title="Cancel" onPress={cancel} className="bg-transparent border-neutral-300" />
+          <Button title="Cancel" onPress={cancel} className="bg-transparent border-dominos-gray-200" />
         </div>
         <div className="bg-neutral-100 overflow-clip my-4">
           <div className="flex flex-col">
             <div className="-m-1.5 overflow-x-auto">
               <div className="p-1.5 min-w-full inline-block align-middle">
                 <div className="overflow-hidden">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="text-jwt-brown bg-slate-400 border-b-2 border-gray-500">
+                  <table className="min-w-full divide-y divide-dominos-gray-200">
+                    <thead className="text-jwt-brown bg-dominos-sky border-b-2 border-dominos-blue">
                       <tr>
                         <th scope="col" className="px-6 py-3 text-start text-xs sm:text-sm font-medium">
                           Pie
@@ -62,20 +62,20 @@ export default function Payment() {
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-200">
+                    <tbody className="divide-y divide-dominos-gray-200">
                       {order.items.map((item: OrderItem, index: number) => (
-                        <tr key={index} className="hover:bg-gray-100">
-                          <td className="px-6 py-4 whitespace-nowrap text-start text-xs sm:text-sm font-medium text-gray-800">{item.description}</td>
-                          <td className="px-6 py-4 whitespace-nowrap text-start text-xs sm:text-sm text-gray-800">{item.price.toLocaleString()} ₿</td>
+                        <tr key={index} className="hover:bg-dominos-gray-100">
+                          <td className="px-6 py-4 whitespace-nowrap text-start text-xs sm:text-sm font-medium text-dominos-gray-900">{item.description}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-start text-xs sm:text-sm text-dominos-gray-900">{item.price.toLocaleString()} ₿</td>
                         </tr>
                       ))}
                     </tbody>
                     <tfoot>
-                      <tr className="bg-orange-200 border-t-2 border-red-500">
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                      <tr className="bg-dominos-sky border-t-2 border-dominos-red">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-dominos-gray-900">
                           {order.items.length} pie{order.items.length > 1 ? 's' : ''}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-dominos-gray-900">
                           {order.items.reduce((a: any, c: any) => a + c.price, 0).toLocaleString()} ₿
                         </td>
                       </tr>

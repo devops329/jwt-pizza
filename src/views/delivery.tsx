@@ -35,7 +35,7 @@ export default function Delivery() {
           strokeWidth=".25"
           strokeLinecap="round"
           strokeLinejoin="round"
-          className="w-64 h-64 text-yellow-500">
+          className="w-64 h-64 text-dominos-red">
           <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" />
           <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
         </svg>
@@ -45,15 +45,15 @@ export default function Delivery() {
           <Button title="Order more" onPress={() => navigate('/menu')} />
         </div>
 
-        <div className="my-4 text-lg text-orange-200 text-start grid grid-cols-5 gap-2">
-          <div className="font-semibold text-orange-400">order ID:</div> <div className="col-span-4">{order.id}</div>
-          <div className="font-semibold text-orange-400">pie count:</div> <div className="col-span-4">{order.items?.length}</div>
-          <div className="font-semibold text-orange-400">total:</div>{' '}
+        <div className="my-4 text-lg text-dominos-navy text-start grid grid-cols-5 gap-2">
+          <div className="font-semibold text-dominos-link">order ID:</div> <div className="col-span-4">{order.id}</div>
+          <div className="font-semibold text-dominos-link">pie count:</div> <div className="col-span-4">{order.items?.length}</div>
+          <div className="font-semibold text-dominos-link">total:</div>{' '}
           <div className="col-span-4">{order.items?.reduce((a: number, c: any) => a + c.price, 0).toLocaleString()} ₿</div>
         </div>
 
         <div
-          className={`font-thin break-all font-mono text-xs bg-slate-100 p-2 ${jwtPayload.message === 'valid' ? 'text-green-500' : 'text-red-500'}`}>
+          className={`font-thin break-all font-mono text-xs bg-dominos-gray-50 p-2 ${jwtPayload.message === 'valid' ? 'text-dominos-green' : 'text-dominos-red'}`}>
           {jwt}
         </div>
       </div>
@@ -61,24 +61,24 @@ export default function Delivery() {
       <div id="hs-jwt-modal" className="hs-overlay hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none">
         <div className="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto min-h-[calc(100%-3.5rem)] flex items-center">
           <div className="w-full flex flex-col bg-white border shadow-sm rounded-xl pointer-events-auto   ">
-            <div className="flex justify-between items-center py-3 px-4 border-b bg-slate-200 rounded-t-xl ">
-              <h3 className="font-bold text-gray-800">
-                JWT Pizza - <span className={jwtPayload.message === 'valid' ? 'text-green-800' : 'text-red-800'}>{jwtPayload.message}</span>
+            <div className="flex justify-between items-center py-3 px-4 border-b bg-dominos-gray-100 rounded-t-xl ">
+              <h3 className="font-bold text-dominos-gray-900">
+                JWT Pizza - <span className={jwtPayload.message === 'valid' ? 'text-dominos-darkgreen' : 'text-dominos-darkred'}>{jwtPayload.message}</span>
               </h3>
               <button
                 type="button"
-                className="flex justify-center items-center size-7 text-sm font-semibold rounded-full border border-transparent text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none  "
+                className="flex justify-center items-center size-7 text-sm font-semibold rounded-full border border-transparent text-dominos-gray-900 hover:bg-dominos-gray-100 disabled:opacity-50 disabled:pointer-events-none  "
                 data-hs-overlay="#hs-jwt-modal">
                 <CloseIcon className="" />
               </button>
             </div>
             <div className="p-4 overflow-y-scroll max-h-52">
-              <pre className="text-gray-800 text-xs">{JSON.stringify(jwtPayload.payload, null, 2)}</pre>
+              <pre className="text-dominos-gray-900 text-xs">{JSON.stringify(jwtPayload.payload, null, 2)}</pre>
             </div>
-            <div className="flex justify-end items-center gap-x-2 py-3 px-4 border-t  bg-slate-200 rounded-b-xl">
+            <div className="flex justify-end items-center gap-x-2 py-3 px-4 border-t  bg-dominos-gray-100 rounded-b-xl">
               <button
                 type="button"
-                className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none    "
+                className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-dominos-gray-200 bg-white text-dominos-gray-900 shadow-sm hover:bg-dominos-gray-50 disabled:opacity-50 disabled:pointer-events-none    "
                 data-hs-overlay="#hs-jwt-modal">
                 Close
               </button>

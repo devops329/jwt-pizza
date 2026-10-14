@@ -18,8 +18,8 @@ export default function Card(props: Props) {
           />
         </div>
         <div className="p-4 md:p-5">
-          <h3 className="text-lg font-bold text-gray-800">{props.title}</h3>
-          <p className="mt-1 text-gray-500">{props.description}</p>
+          <h3 className="text-lg font-bold text-dominos-gray-900">{props.title}</h3>
+          <p className="mt-1 text-dominos-gray-700">{props.description}</p>
         </div>
       </a>
     </div>
