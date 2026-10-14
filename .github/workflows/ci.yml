@@ -6,114 +6,117 @@ on:
       - main
   workflow_dispatch:
 jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.set_version.outputs.version }}
-    services:
-      # Throwaway database for the tests; it only exists for the length of this job.
-      # MYSQL_DATABASE is deliberately not set: the pizza service only adds its default
-      # admin (a@jwt.com) when it creates the database itself.
-      mysql:
-        image: mysql:8.0.29
-        env:
-          MYSQL_ROOT_PASSWORD: tempdbpassword
-        ports:
-          - "3306:3306"
-        options: >-
-          --health-cmd "mysqladmin ping -ptempdbpassword" --health-interval 10s --health-start-period 10s --health-timeout 5s --health-retries 10
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+  # build:
+  #   name: Build
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     version: ${{ steps.set_version.outputs.version }}
+  #   services:
+  #     # Throwaway database for the tests; it only exists for the length of this job.
+  #     # MYSQL_DATABASE is deliberately not set: the pizza service only adds its default
+  #     # admin (a@jwt.com) when it creates the database itself.
+  #     mysql:
+  #       image: mysql:8.0.29
+  #       env:
+  #         MYSQL_ROOT_PASSWORD: tempdbpassword
+  #       ports:
+  #         - "3306:3306"
+  #       options: >-
+  #         --health-cmd "mysqladmin ping -ptempdbpassword" --health-interval 10s --health-start-period 10s --health-timeout 5s --health-retries 10
+  #   steps:
+  #     - name: Checkout repo
+  #       uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "22.x"
+  #     - name: Setup Node
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: "22.x"
 
-      - name: set version
-        id: set_version
-        run: |
-          version=$(date +'%Y%m%d.%H%M%S')
-          echo "version=$version" >> "$GITHUB_OUTPUT"
-          printf '{"version": "%s" }' "$version" > public/version.json
+  #     - name: set version
+  #       id: set_version
+  #       run: |
+  #         version=$(date +'%Y%m%d.%H%M%S')
+  #         echo "version=$version" >> "$GITHUB_OUTPUT"
+  #         printf '{"version": "%s" }' "$version" > public/version.json
 
-      - name: Build
-        run: |
-          npm ci && npm run build
-          cp dist/index.html dist/404.html
+  #     - name: Build
+  #       run: |
+  #         npm ci && npm run build
+  #         cp dist/index.html dist/404.html
 
-      - name: Checkout pizza service
-        uses: actions/checkout@v4
-        with:
-          repository: Micsween/jwt-pizza-service
-          path: jwt-pizza-service
+  #     - name: Checkout pizza service
+  #       uses: actions/checkout@v4
+  #       with:
+  #         repository: Micsween/jwt-pizza-service
+  #         path: jwt-pizza-service
 
-      - name: Start pizza service
-        working-directory: jwt-pizza-service
-        run: |
-          echo "module.exports = {
-            jwtSecret: 'ci-only-secret',
-            db: {
-              connection: {
-                host: '127.0.0.1',
-                user: 'root',
-                password: 'tempdbpassword',
-                database: 'pizza',
-                connectTimeout: 60000,
-              },
-              listPerPage: 10,
-            },
-            factory: {
-              url: 'http://localhost:9',
-              apiKey: 'not-used',
-            },
-          };" > src/config.js
-          npm ci
-          npm start > service.log 2>&1 &
+  #     - name: Start pizza service
+  #       working-directory: jwt-pizza-service
+  #       run: |
+  #         echo "module.exports = {
+  #           jwtSecret: 'ci-only-secret',
+  #           db: {
+  #             connection: {
+  #               host: '127.0.0.1',
+  #               user: 'root',
+  #               password: 'tempdbpassword',
+  #               database: 'pizza',
+  #               connectTimeout: 60000,
+  #             },
+  #             listPerPage: 10,
+  #           },
+  #           factory: {
+  #             url: 'http://localhost:9',
+  #             apiKey: 'not-used',
+  #           },
+  #         };" > src/config.js
+  #         npm ci
+  #         npm start > service.log 2>&1 &
 
-      - name: Seed test data
-        run: |
-          # Wait until the service is up and its default admin can log in.
-          for i in $(seq 1 30); do
-            token=$(curl -s -X PUT http://localhost:3000/api/auth -H 'Content-Type: application/json' -d '{"email":"a@jwt.com", "password":"admin"}' | jq -r '.token // empty' 2>/dev/null || true)
-            if [ -n "$token" ]; then break; fi
-            sleep 1
-          done
-          if [ -z "$token" ]; then echo "pizza service did not start"; cat jwt-pizza-service/service.log; exit 1; fi
-          bash jwt-pizza-service/generatePizzaData.sh http://localhost:3000
+  #     - name: Seed test data
+  #       run: |
+  #         # Wait until the service is up and its default admin can log in.
+  #         for i in $(seq 1 30); do
+  #           token=$(curl -s -X PUT http://localhost:3000/api/auth -H 'Content-Type: application/json' -d '{"email":"a@jwt.com", "password":"admin"}' | jq -r '.token // empty' 2>/dev/null || true)
+  #           if [ -n "$token" ]; then break; fi
+  #           sleep 1
+  #         done
+  #         if [ -z "$token" ]; then echo "pizza service did not start"; cat jwt-pizza-service/service.log; exit 1; fi
+  #         bash jwt-pizza-service/generatePizzaData.sh http://localhost:3000
 
-      - name: Run tests
-        run: |
-          npx playwright install --with-deps chromium
-          npm run test:coverage
+  #     - name: Run tests
+  #       run: |
+  #         npx playwright install --with-deps chromium
+  #         npm run test:coverage
 
-      - name: Show pizza service log
-        if: failure()
-        run: cat jwt-pizza-service/service.log
+  #     - name: Show pizza service log
+  #       if: failure()
+  #       run: cat jwt-pizza-service/service.log
 
-      - name: Update pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist/
+  #     - name: Update pages artifact
+  #       uses: actions/upload-pages-artifact@v3
+  #       with:
+  #         path: dist/
 
-      - name: Update coverage
-        run: |
-          coverage=$(jq '.total.lines.pct' coverage/coverage-summary.json)
-          color=$(echo "$coverage < 80" | bc | awk '{if ($1) print "red"; else print "green"}')
-          curl -s -X POST "https://pizza-factory.cs329.click/api/badge/${{ secrets.NET_ID }}/jwtpizzacoverage?label=Coverage&value=$coverage%25&color=$color" -H "authorization: bearer ${{ secrets.FACTORY_API_KEY }}"
+  #     - name: Update coverage
+  #       run: |
+  #         coverage=$(jq '.total.lines.pct' coverage/coverage-summary.json)
+  #         color=$(echo "$coverage < 80" | bc | awk '{if ($1) print "red"; else print "green"}')
+  #         curl -s -X POST "https://pizza-factory.cs329.click/api/badge/${{ secrets.NET_ID }}/jwtpizzacoverage?label=Coverage&value=$coverage%25&color=$color" -H "authorization: bearer ${{ secrets.FACTORY_API_KEY }}"
 
   deploy:
-    needs: build
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Create OIDC token to AWS
+        uses: aws-actions/configure-aws-credentials@v6.3.0
+        with:
+          audience: sts.amazonaws.com
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/${{ secrets.CI_IAM_ROLE }}
+
+      - name: Push to AWS S3
+        run: |
+          mkdir dist
+          printf "<h1>CloudFront deployment with GitHub Actions</h1>" > dist/index.html
+          aws s3 cp dist s3://${{ secrets.APP_BUCKET }} --recursive
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.DISTRIBUTION_ID }} --paths "/*"
